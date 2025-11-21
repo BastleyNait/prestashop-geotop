@@ -38,3 +38,689 @@
 @import "components/notifications";
 @import "components/progressbar";
 /* stylelint-enable */
+
+
+
+// ==================================================
+//  MODERNIZACIÓN GEOTOP (OVERRIDE)
+// ==================================================
+
+// 1. VARIABLES GLOBALES & TIPOGRAFÍA
+$primary-geo: #F39C12; // Naranja GeoTop
+$dark-geo:    #2c3e50; // Azul oscuro profesional
+
+body, h1, h2, h3, h4, h5, h6, p, a, span, div {
+    font-family: 'Manrope', sans-serif !important;
+}
+
+// --- ARREGLOS FINALES GEOTOP ---
+
+// 1. HEADER FULL WIDTH & LIMPIEZA
+#header {
+    // Ocultar el buscador que sale dentro del menú (displayTop) para que no salga doble
+    .header-top .col-md-7 #search_widget {
+        display: none !important;
+    }
+    
+    // Estilo para el buscador correcto (derecha)
+    .search-widget-wrapper form input[type=text] {
+        background: #f5f5f5;
+        border: none;
+        border-radius: 50px;
+        width: 200px;
+        padding-left: 15px;
+        transition: 0.3s;
+        &:focus { background: white; box-shadow: 0 0 0 2px #F39C12; }
+    }
+}
+
+// 2. HERO BANNER ANIMADO (Sin curvas)
+.modern-hero-wrapper {
+    position: relative;
+    height: 600px; // Altura fija para que se vea imponente
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    margin-bottom: 50px;
+    border-radius: 0 !important; // RECTO, SIN CURVAS
+}
+
+// El Fondo que se mueve
+.modern-hero-bg {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    // Imagen de fondo (Uso una de Unsplash de construcción/topografía como ejemplo)
+    background-image: url('https://images.unsplash.com/photo-1581094794329-c8112a89af12?q=80&w=2070&auto=format&fit=crop'); 
+    background-size: cover;
+    background-position: center;
+    z-index: 1;
+    
+    // Animación de Zoom suave (Ken Burns)
+    animation: heroZoom 20s infinite alternate;
+}
+
+// Oscurecedor para que se lea el texto
+.modern-hero-bg::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(90deg, rgba(26, 37, 47, 0.9) 0%, rgba(26, 37, 47, 0.4) 100%);
+}
+
+// El Texto (encima del fondo)
+.modern-hero-content {
+    position: relative;
+    z-index: 2; // Encima del fondo
+    width: 100%;
+    
+    h1 {
+        font-size: 4rem; // Texto gigante
+        font-weight: 900;
+        color: white;
+        margin-bottom: 20px;
+        line-height: 1;
+        text-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+    
+    p {
+        font-size: 1.5rem;
+        color: #ddd;
+        margin-bottom: 40px;
+        font-weight: 300;
+    }
+    
+    .btn-hero {
+        background: #F39C12;
+        color: white;
+        padding: 18px 50px;
+        font-size: 1.1rem;
+        font-weight: 800;
+        border-radius: 50px;
+        text-decoration: none;
+        box-shadow: 0 10px 30px rgba(243, 156, 18, 0.5);
+        transition: transform 0.3s;
+        display: inline-block;
+        &:hover { transform: scale(1.05) translateY(-3px); }
+    }
+}
+
+// Definición de la animación
+@keyframes heroZoom {
+    0% { transform: scale(1); }
+    100% { transform: scale(1.2); } // Zoom lento del 20%
+}
+
+// Ajuste Móvil
+@media (max-width: 768px) {
+    .modern-hero-wrapper { height: 400px; }
+    .modern-hero-content h1 { font-size: 2.5rem; }
+}
+
+// 4. TARJETAS DE CATEGORÍAS & PRODUCTOS (Estilo Apple Store)
+// Esto elimina las barras negras feas
+.category-miniature, .product-miniature {
+    background: white !important;
+    border: 1px solid #eee !important;
+    border-radius: 16px !important;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.03) !important;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    margin-bottom: 30px;
+
+    &:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 15px 30px rgba(0,0,0,0.1) !important;
+        border-color: transparent !important;
+    }
+
+    // Imagen
+    .thumbnail-container, a.category-thumbnail {
+        padding: 25px;
+        background: white;
+        
+        img {
+            mix-blend-mode: multiply; // Truco para que el fondo blanco de la foto se funda
+            max-height: 180px;
+            width: auto;
+            margin: 0 auto;
+            display: block;
+            transition: transform 0.3s;
+        }
+    }
+    
+    &:hover img { transform: scale(1.05); }
+
+    // Títulos y Textos
+    .category-title, .product-title {
+        background: white !important; // Adiós fondo negro
+        padding: 0 20px 20px 20px !important;
+        text-align: center;
+        min-height: auto;
+        
+        a {
+            color: $dark-geo !important;
+            font-weight: 700;
+            font-size: 16px;
+            text-transform: none; // Adiós mayúsculas agresivas
+            text-decoration: none;
+        }
+    }
+    
+    // Precio
+    .price {
+        color: $primary-geo !important;
+        font-weight: 800;
+        font-size: 1.2rem;
+    }
+
+    // Ocultar cosas viejas
+    .category-description, .highlighted-informations, .variant-links { display: none !important; }
+    .product-description-short { display: none; }
+}
+
+// 5. TÍTULOS DE SECCIONES (H2)
+.h2.products-section-title {
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: 800;
+    font-size: 1.8rem;
+    margin: 40px 0 30px 0;
+    position: relative;
+    
+    &::after {
+        content: '';
+        display: block;
+        width: 60px;
+        height: 4px;
+        background: $primary-geo;
+        margin: 15px auto 0 auto;
+        border-radius: 2px;
+    }
+}
+
+// 6. FOOTER
+#footer {
+    background-color: #1a1a1a;
+    color: white;
+    padding-top: 60px;
+    
+    a { color: #bbb; &:hover { color: $primary-geo; } }
+    h4, .h4 { color: white; font-weight: 700; text-transform: uppercase; font-size: 14px; margin-bottom: 20px; }
+    
+    .block-contact {
+        font-size: 14px;
+        color: #bbb;
+    }
+}
+
+// --- SECCIÓN SERVICIOS ---
+
+.services-section {
+    background-color: #f9f9f9; // Gris muy suave para separar secciones
+    padding: 80px 0;
+    position: relative;
+    
+    .section-title {
+        font-size: 2.2rem;
+        font-weight: 800;
+        color: $dark-geo;
+        text-transform: uppercase;
+        margin-bottom: 10px;
+    }
+    
+    .section-subtitle {
+        font-size: 1.1rem;
+        color: #666;
+        margin-bottom: 20px;
+    }
+
+    .title-separator {
+        width: 50px;
+        height: 4px;
+        background: $primary-geo;
+        margin: 0 auto 40px auto;
+        border-radius: 2px;
+    }
+}
+
+// Tarjeta de Servicio
+.service-card {
+    background: white;
+    border-radius: 15px;
+    padding: 30px 20px;
+    height: 100%; // Para que todas tengan la misma altura
+    box-shadow: 0 5px 20px rgba(0,0,0,0.03);
+    transition: all 0.3s ease;
+    border-top: 4px solid transparent; // Borde invisible arriba
+    text-align: center;
+
+    &:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 30px rgba(0,0,0,0.08);
+        border-top-color: $primary-geo; // Aparece la línea naranja al pasar mouse
+    }
+
+    .icon-wrapper {
+        width: 70px;
+        height: 70px;
+        background: rgba(243, 156, 18, 0.1); // Naranja transparente
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 20px auto;
+        
+        i {
+            font-size: 32px;
+            color: $primary-geo;
+        }
+    }
+
+    h3 {
+        font-size: 1.2rem;
+        font-weight: 800;
+        margin-bottom: 20px;
+        color: $dark-geo;
+        text-transform: uppercase;
+    }
+
+    .service-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        text-align: left; // Texto alineado a la izquierda para leer mejor
+        
+        li {
+            font-size: 13px;
+            color: #555;
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+            
+            // Bullet point personalizado
+            &::before {
+                content: '•';
+                color: $primary-geo;
+                font-weight: bold;
+                position: absolute;
+                left: 0;
+                top: 0;
+            }
+        }
+    }
+}
+
+// Botón Cotizar (MEJORADO)
+.services-section {
+    // Aseguramos que el contenedor del botón esté centrado
+    .text-center {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+    }
+
+    .btn-cotizar-pro {
+        background: #F39C12; // Naranja sólido
+        color: white;
+        font-size: 16px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        padding: 18px 60px; // Más ancho y alto
+        border-radius: 50px; // Píldora perfecta
+        border: none;
+        box-shadow: 0 10px 20px rgba(243, 156, 18, 0.3); // Sombra difusa
+        transition: all 0.3s ease;
+        cursor: pointer;
+        display: inline-block;
+        margin-top: 30px;
+
+        &:hover {
+            background: #2c3e50; // Cambio a Azul Oscuro al pasar el mouse
+            transform: translateY(-3px); // Sube un poco
+            box-shadow: 0 15px 30px rgba(44, 62, 80, 0.4);
+        }
+    }
+}
+
+// --- ESTILO DE TARJETAS CATÁLOGO (GEO-CARD) ---
+.geo-card {
+    display: block;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
+    height: 100%; // Igualar alturas
+    text-decoration: none !important;
+    border: 1px solid #eee;
+
+    // Imagen
+    .geo-card-img {
+        height: 200px; // Altura fija para la foto
+        width: 100%;
+        background-size: cover;
+        background-position: center;
+        transition: transform 0.5s;
+    }
+
+    // Cuerpo
+    .geo-card-body {
+        padding: 20px;
+        text-align: center;
+        background: white;
+        position: relative;
+        z-index: 2;
+
+        h3 {
+            font-size: 16px;
+            font-weight: 700;
+            color: #2c3e50; // Azul oscuro
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .btn-ver {
+            font-size: 12px;
+            color: #F39C12; // Naranja
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            
+            i { font-size: 14px; margin-left: 5px; transition: margin 0.3s; }
+        }
+    }
+
+    // Efecto Hover
+    &:hover {
+        transform: translateY(-5px); // Flota
+        box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        border-color: #F39C12; // Borde naranja
+
+        .geo-card-img {
+            transform: scale(1.05); // Zoom suave
+        }
+        
+        .btn-ver i {
+            margin-left: 10px; // La flecha se mueve
+        }
+    }
+}
+
+// --- TARJETA MINI PARA CATÁLOGO COMPLETO ---
+// --- TARJETA MINI PRO (GRID 4x4) ---
+// --- TARJETA MINI PRO (GRID 4x4 - AJUSTADO) ---
+.geo-card-mini {
+    display: block;
+    position: relative;
+    height: 150px; // REDUCIDO: Antes 220px (ahora más elegante)
+    border-radius: 12px; // Bordes un poco menos redondos
+    overflow: hidden;
+    text-decoration: none !important;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    
+    // Espacio vital alrededor (Margin)
+    margin-bottom: 30px; // ESPACIO ABAJO AÑADIDO
+    
+    background: linear-gradient(135deg, #2c3e50 0%, #000000 100%);
+    border: 1px solid rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
+
+    .geo-bg {
+        position: absolute;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background-size: cover;
+        background-position: center;
+        opacity: 0.6;
+        transition: transform 0.5s ease;
+    }
+
+    .geo-content {
+        position: absolute;
+        top: 0; left: 0; width: 100%; height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 2;
+        padding: 15px; // Menos padding interno
+        
+        h3 {
+            color: white;
+            font-size: 15px; // Letra un pelín más fina
+            font-weight: 800;
+            text-transform: uppercase;
+            text-align: center;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+            margin: 0;
+            letter-spacing: 0.5px;
+        }
+    }
+
+    &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        border-bottom: 3px solid #F39C12;
+
+        .geo-bg {
+            transform: scale(1.1);
+            opacity: 0.3;
+        }
+        
+        h3 { color: #F39C12; }
+    }
+}
+
+
+// --- ESTILO ESPECIAL PARA TARJETA "MÁS" ---
+.geo-card-more {
+    border: 2px solid #F39C12; // Borde naranja por defecto
+
+    .geo-bg {
+        opacity: 0.9 !important; // Color naranja casi sólido
+    }
+
+    .geo-content {
+        flex-direction: column; // Icono debajo del texto
+        
+        h3 {
+            font-size: 18px; // Texto un poco más grande
+            font-weight: 900;
+        }
+    }
+
+    // Efecto Hover Específico
+    &:hover {
+        background: #F39C12; // Fondo naranja sólido
+        transform: translateY(-5px) scale(1.02); // Un poco más de "pop"
+        box-shadow: 0 15px 30px rgba(243, 156, 18, 0.4);
+        
+        .geo-bg {
+            opacity: 1 !important;
+        }
+        
+        h3, i {
+            color: white !important; // Asegurar texto blanco
+        }
+    }
+}
+
+// --- SECCIÓN CATÁLOGO GENERAL ---
+.catalog-grid-section {
+    // Nuevo fondo suave y elegante (Gris azulado muy claro)
+    background-color: #f4f6f8; 
+    padding: 100px 0; // Buen espaciado vertical
+}
+
+// --- ESTILOS TÍTULO PRO ---
+.section-header-pro {
+    margin-bottom: 60px; // Espacio hasta las tarjetas
+
+    .title-pro {
+        color: #2c3e50; // Azul oscuro corporativo
+        font-weight: 900; // Muy grueso
+        font-size: 2.5rem; // Tamaño impactante
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 15px;
+    }
+
+    .separator-pro {
+        width: 80px;
+        height: 4px;
+        background: linear-gradient(to right, #F39C12, #f8c471); // Degradado naranja sutil
+        margin: 0 auto 20px auto;
+        border-radius: 2px;
+    }
+
+    .subtitle-pro {
+        color: #666;
+        font-size: 1.1rem;
+        font-weight: 400;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+}
+
+// --- FOOTER FINAL (FULL WIDTH & DARK) ---
+
+.footer-full-width {
+    // TRUCO PARA ROMPER EL CONTENEDOR Y OCUPAR TODA LA PANTALLA
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    
+    background-color: #111111; // Negro puro elegante
+    color: #cccccc; // Gris claro para texto base
+    padding-top: 70px;
+    padding-bottom: 30px;
+    font-size: 14px;
+    overflow: hidden; // Evita scroll horizontal
+
+    // --- 1. ARREGLO DEL NEWSLETTER (Limpieza agresiva) ---
+    .clean-newsletter {
+        margin-bottom: 50px;
+
+        // Ocultar textos y bloques basura del módulo original
+        p, .block_newsletter_description, .form-control-comment, .alert { 
+            display: none !important; 
+        }
+
+        form {
+            display: flex;
+            justify-content: center;
+            position: relative;
+            
+            input[type="email"] {
+                background: rgba(255,255,255,0.1);
+                border: 1px solid #444;
+                color: white;
+                border-radius: 50px 0 0 50px;
+                padding: 15px 25px;
+                height: 50px;
+                min-width: 300px;
+                &:focus { outline: none; border-color: #F39C12; background: rgba(255,255,255,0.15); }
+            }
+            
+            .btn {
+                background: #F39C12; // Naranja
+                color: white;
+                border-radius: 0 50px 50px 0;
+                padding: 0 30px;
+                font-weight: 800;
+                text-transform: uppercase;
+                border: none;
+                height: 50px;
+                margin-top: 0 !important; 
+                float: none !important; // Arregla flotados viejos
+                &:hover { background: white; color: #F39C12; }
+            }
+        }
+    }
+
+    // --- 2. TIPOGRAFÍA Y COLORES (Todo Claro) ---
+    h4, .h4, .footer-heading {
+        color: white !important;
+        font-weight: 800;
+        text-transform: uppercase;
+        margin-bottom: 20px;
+        font-size: 16px;
+        letter-spacing: 1px;
+    }
+
+    .footer-text {
+        color: #999;
+        line-height: 1.6;
+        margin-bottom: 20px;
+    }
+
+    // Enlaces
+    a {
+        color: #bbbbbb !important; // Gris claro
+        text-decoration: none;
+        transition: all 0.3s;
+        display: inline-block;
+        
+        &:hover { 
+            color: #F39C12 !important; // Naranja al pasar mouse
+            transform: translateX(5px); 
+        }
+    }
+
+    // Listas
+    .footer-links, .footer-contact-list {
+        list-style: none;
+        padding: 0;
+        li { margin-bottom: 12px; }
+    }
+
+    // Contacto con Iconos
+    .footer-contact-list li {
+        display: flex;
+        align-items: flex-start;
+        i {
+            color: #F39C12;
+            margin-right: 12px;
+            font-size: 18px;
+            margin-top: 3px;
+        }
+    }
+
+    // --- 3. SOCIAL ICONS ---
+    .footer-social-icons {
+        a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            background: #222;
+            border-radius: 50%;
+            margin-left: 10px;
+            color: white !important;
+            
+            &:hover {
+                background: #F39C12;
+                transform: translateY(-3px); // Sube al pasar mouse
+            }
+            
+            i { font-size: 20px; }
+        }
+    }
+
+    // --- 4. SEPARADOR Y BOTTOM ---
+    .footer-divider {
+        height: 1px;
+        background: #333;
+        margin: 50px 0 30px 0;
+    }
+    
+    .copyright, .dev-credit {
+        margin: 0;
+        font-size: 13px;
+        color: #777;
+        strong { color: white; }
+    }
+}
